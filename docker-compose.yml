@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  app:
+    image: ts-restful-api:dev
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    entrypoint: ["yarn"]
+    volumes:
+      - .:/app
+      - /app/node_modules
