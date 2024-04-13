@@ -6,7 +6,26 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    entrypoint: ["yarn"]
     volumes:
       - .:/app
       - /app/node_modules
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    restart: always
+    ports:
+      - 3310:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: 'app'
+      MYSQL_USER: 'app_user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
