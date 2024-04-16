@@ -5,8 +5,4 @@ import { apiRouter } from '../route/api'
 
 export const web = express()
 
-web
-    .use(express.json())
-    .use(publicRouter)
-    .use(apiRouter)
-    .use(errorMiddleware)
+web.use(express.json()).use(publicRouter).use(apiRouter).use(errorMiddleware)

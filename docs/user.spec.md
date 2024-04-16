@@ -94,7 +94,7 @@ Response Body (Failed):
 
 ## Update User
 
-Endpoint: PATCH /api/users/current
+Endpoint: PATCH /api/users
 
 Request Header:
 - X-API-TOKEN: token
@@ -131,7 +131,7 @@ Response Body (Failed):
 
 ## Logout User
 
-Endpoint: DELETE /api/users/current
+Endpoint: DELETE /api/users/logout
 
 Request Header:
 - X-API-TOKEN: token
