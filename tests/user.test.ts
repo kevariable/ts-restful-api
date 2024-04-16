@@ -133,3 +133,78 @@ describe('GET /api/users/current', () => {
         expect(response.status).toBe(401)
     })
 })
+
+describe('PATCH /api/users/current', () => {
+    it('can update name and password', async () => {
+        const userRequest = createUserRequest()
+        
+        await CreateUser.execute(userRequest)
+        
+        const login = await LoginUser.execute(userRequest)
+        
+        const newUserRequest = createUserRequest()
+
+        const response = await supertest(web)
+            .patch('/api/users/current')
+            .send(newUserRequest)
+            .set('X-API-TOKEN', login.token!)
+
+        expect(response.status).toBe(200)
+        expect(response.body.data).toBeDefined()
+        expect(response.body.data.name).toBe(newUserRequest.name)
+    })
+
+    it('can update name only', async () => {
+        const userRequest = createUserRequest()
+        
+        await CreateUser.execute(userRequest)
+        
+        const login = await LoginUser.execute(userRequest)
+        
+        const newUserRequest = createUserRequest()
+
+        const response = await supertest(web)
+            .patch('/api/users/current')
+            .send({ name: newUserRequest.name })
+            .set('X-API-TOKEN', login.token!)
+
+        expect(response.status).toBe(200)
+        expect(response.body.data).toBeDefined()
+        expect(response.body.data.name).toBe(newUserRequest.name)
+    })
+
+    it('can update password only', async () => {
+        const userRequest = createUserRequest()
+        
+        await CreateUser.execute(userRequest)
+        
+        const login = await LoginUser.execute(userRequest)
+        
+        const newUserRequest = createUserRequest()
+
+        const response = await supertest(web)
+            .patch('/api/users/current')
+            .send({ password: newUserRequest.password })
+            .set('X-API-TOKEN', login.token!)
+
+        expect(response.status).toBe(200)
+        expect(response.body.data).toBeDefined()
+        expect(response.body.data.name).toBe(userRequest.name)
+    })
+
+    it('cant update name and password if payload is not desiredable', async () => {
+        const userRequest = createUserRequest()
+        
+        await CreateUser.execute(userRequest)
+        
+        const login = await LoginUser.execute(userRequest)
+
+        const response = await supertest(web)
+            .patch('/api/users/current')
+            .send({ name: '', password: '' })
+            .set('X-API-TOKEN', login.token!)
+
+        expect(response.status).toBe(422)
+        expect(response.body.errors).toBeDefined()
+    })
+})

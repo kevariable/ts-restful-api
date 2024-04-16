@@ -1,7 +1,5 @@
 import {
   LoginUserRequest,
-  UserResponse,
-  toUserResponse
 } from '../model/user-model'
 import { UserValidation } from '../validation/user-validation'
 import { Validation } from '../validation/validation'
