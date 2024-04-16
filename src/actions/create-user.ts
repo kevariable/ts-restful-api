@@ -5,8 +5,8 @@ import { prismaClient } from "../application/database"
 import { ResponseError } from "../error/response-error"
 import bcrypt from 'bcrypt'
 
-export class UserService {
-    static async register(request: CreateUserRequest): Promise<UserResponse> {
+export default class CreateUser {
+    static async execute(request: CreateUserRequest): Promise<UserResponse> {
         const registerRequest = Validation.validate(UserValidation.REGISTER, request)
 
         const record = await prismaClient.user.findUnique({
