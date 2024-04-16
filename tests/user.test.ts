@@ -2,6 +2,7 @@ import supertest from "supertest"
 import { web } from '../src/application/web'
 import { faker } from '@faker-js/faker'
 import CreateUser from "../src/actions/create-user"
+import { createUserRequest } from "./fixtures/user"
 
 describe('POST /api/users', () => {
     it('should reject register new user if desired payload not satisfiable', async () => {
@@ -57,13 +58,11 @@ describe('POST /api/users', () => {
             }
         })
     })
+})
 
+describe('POST /api/login', () => {
     it('can get a token from login when username and password is correct', async () => {
-        const userRequest = {
-            username: faker.internet.userName(),    
-            name: faker.person.fullName(),
-            password: faker.internet.password()
-        }
+        const userRequest = createUserRequest()
 
         const user = await CreateUser.execute(userRequest)
 
@@ -94,11 +93,7 @@ describe('POST /api/users', () => {
     })
 
     it('cant login when password is incorrect', async () => {
-        const userRequest = {
-            username: faker.internet.userName(),    
-            name: faker.person.fullName(),
-            password: faker.internet.password()
-        }
+        const userRequest = createUserRequest()
 
         const user = await CreateUser.execute(userRequest)
 
