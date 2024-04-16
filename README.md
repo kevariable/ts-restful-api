@@ -4,6 +4,7 @@
 
 - TypeScript
 - Express JS
+- Prisma
 - Jest
 - Docker
 
