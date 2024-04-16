@@ -1,8 +1,10 @@
 import supertest from "supertest"
 import { web } from '../src/application/web'
 import { faker } from '@faker-js/faker'
-import CreateUser from "../src/actions/create-user"
+import CreateUser from "../src/action/create-user"
 import { createUserRequest } from "./fixtures/user"
+import LoginUser from "../src/action/login-user"
+import { request } from "express"
 
 describe('POST /api/users', () => {
     it('should reject register new user if desired payload not satisfiable', async () => {
@@ -103,6 +105,30 @@ describe('POST /api/login', () => {
                 username: user.username,
                 password: 'I AM THE WRONG PASSWORD'
             })
+
+        expect(response.status).toBe(401)
+    })
+})
+
+describe('GET /api/users/current', () => {
+    it('can get current user if token is valid', async () => {
+        const userRequest = createUserRequest()
+
+        await CreateUser.execute(userRequest)
+
+        const login = await LoginUser.execute(userRequest)
+
+        const response = await supertest(web)
+            .get('/api/users/current')
+            .set('X-API-TOKEN', login.token!)
+
+        expect(response.status).toBe(200)
+    })
+
+    it('cant get current user if token is invalid', async () => {        
+        const response = await supertest(web)
+            .get('/api/users/current')
+            .set('X-API-TOKEN', 'I AM THE HACKER')
 
         expect(response.status).toBe(401)
     })

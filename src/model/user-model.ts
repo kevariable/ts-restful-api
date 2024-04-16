@@ -17,6 +17,10 @@ export type LoginUserRequest = {
     password: string
 }
 
+export type GetUserByTokenRequest = {
+    token: string
+}
+
 export function toUserResponse({ username, name, token }: User): UserResponse {
     return {
         name,

@@ -5,9 +5,10 @@ import { prismaClient } from "../application/database"
 import { ResponseError } from "../error/response-error"
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcrypt'
+import { User } from "@prisma/client"
 
 export default class LoginUser {
-    static async execute(request: LoginUserRequest): Promise<UserResponse> {
+    static async execute(request: LoginUserRequest): Promise<User> {
         Validation.validate(UserValidation.LOGIN, request)
 
         const user = await prismaClient.user.findUnique({
@@ -35,6 +36,6 @@ export default class LoginUser {
             }
         })
 
-        return toUserResponse(updatedUser)
+        return updatedUser
     }
 }

@@ -4,9 +4,10 @@ import { UserValidation } from "../validation/user-validation"
 import { prismaClient } from "../application/database"
 import { ResponseError } from "../error/response-error"
 import bcrypt from 'bcrypt'
+import { User } from "@prisma/client"
 
 export default class CreateUser {
-    static async execute(request: CreateUserRequest): Promise<UserResponse> {
+    static async execute(request: CreateUserRequest): Promise<User> {
         const registerRequest = Validation.validate(UserValidation.REGISTER, request)
 
         const record = await prismaClient.user.findUnique({
@@ -28,6 +29,6 @@ export default class CreateUser {
             data: registerRequest
         })
 
-        return toUserResponse(user)
+        return user
     }
 }
