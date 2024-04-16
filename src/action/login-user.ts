@@ -1,6 +1,4 @@
-import {
-  LoginUserRequest,
-} from '../model/user-model'
+import { LoginUserRequest } from '../model/user-model'
 import { UserValidation } from '../validation/user-validation'
 import { Validation } from '../validation/validation'
 import { prismaClient } from '../application/database'

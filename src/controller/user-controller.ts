@@ -46,7 +46,7 @@ export class UserController {
 
   static async updateUser(req: UserRequest, res: Response, next: NextFunction) {
     try {
-      const user = await UpdateUser.execute(req.user !, req.body)
+      const user = await UpdateUser.execute(req.user!, req.body)
 
       res.status(200).json({
         data: toUserResponse(user)

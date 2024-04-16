@@ -4,7 +4,6 @@ import { faker } from '@faker-js/faker'
 import CreateUser from "../src/action/create-user"
 import { createUserRequest } from "./fixtures/user"
 import LoginUser from "../src/action/login-user"
-import { request } from "express"
 
 describe('POST /api/users', () => {
     it('should reject register new user if desired payload not satisfiable', async () => {
