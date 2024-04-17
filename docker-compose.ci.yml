@@ -2,16 +2,11 @@ version: '3.8'
 
 services:
   app:
-    image: ts-restful-api:dev
+    image: ${DOCKER_IMAGE_TS}
     build:
       context: .
       dockerfile: ./Dockerfile
-    volumes:
-      - .:/app
-      - /app/node_modules
     command: ["npm", "run", "dev"]
-    ports:
-      - 3000:3000
     depends_on:
       - mysql
 
