@@ -71,7 +71,7 @@ Response Body (Failed):
 
 ## Update Contact
 
-Endpoint: PATCH /api/contacts/{contactId}
+Endpoint: PUT /api/contacts/{contactId}
 
 Request Header:
 - X-API-TOKEN: token

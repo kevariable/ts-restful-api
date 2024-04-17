@@ -210,7 +210,7 @@ describe('POST /api/logout', () => {
 
     const response = await supertest(web)
       .post('/api/logout')
-      .set('X-API-TOKEN', login.token !)
+      .set('X-API-TOKEN', login.token!)
       .send()
 
     expect(response.status).toBe(200)

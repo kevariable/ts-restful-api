@@ -27,7 +27,11 @@ export type UpdateUserRequest = {
   password?: string
 }
 
-export function toUserResponse({ username, name, token }: User): Response<UserResponse> {
+export function toUserResponse({
+  username,
+  name,
+  token
+}: User): Response<UserResponse> {
   return {
     data: {
       name,
