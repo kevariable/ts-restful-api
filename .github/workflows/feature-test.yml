@@ -4,6 +4,7 @@ name: Feature Test
   push:
     branches:
       - ci/**
+      - main
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME_BACKEND: '${{ github.repository }}-backend'
