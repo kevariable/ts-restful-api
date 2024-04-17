@@ -7,6 +7,6 @@ ls -l
 
 ${DC} up -d app mysql
 
-${DC} exec app npx prisma generate
+${DC} exec -it app npx prisma generate
 
 export COMPOSE_INTERACTIVE_NO_CLI=1
