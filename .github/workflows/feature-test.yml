@@ -1,0 +1,42 @@
+name: Feature Test
+'on':
+  workflow_dispatch: null
+  push:
+    branches:
+      - ci/**
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_BACKEND: '${{ github.repository }}-backend'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone Repo
+        uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: '${{ env.REGISTRY }}'
+          username: '${{ github.actor }}'
+          password: '${{ secrets.GITHUB_TOKEN }}'
+      - name: 'Extract metadata (tags, labels) for Docker'
+        id: meta-backend
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME_BACKEND }}'
+      - name: Docker Backend
+        uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: '${{ steps.meta-backend.outputs.tags }}'
+          labels: '${{ steps.meta-backend.outputs.labels }}'
+      - name: Containers Up
+        run: ./cicd/steps/run-containers.sh
+        env:
+          DOCKER_IMAGE_TS: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME_BACKEND }}'
+      - name: Feature Tests
+        run: ./cicd/steps/run-tests.sh
+        env:
+          DOCKER_IMAGE_TS: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME_BACKEND }}'
