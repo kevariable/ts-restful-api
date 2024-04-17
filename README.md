@@ -1,7 +1,5 @@
 # Simple CRUD API
 
-## CI
-
 ![FEATURE TEST](https://github.com/kevariable/ts-restful-api/actions/workflows/feature-test.yml/badge.svg)
 
 ## STACK
