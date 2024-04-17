@@ -4,6 +4,7 @@ import CreateContact from '../action/contact/create-contact'
 import UserRequest from '../request/user-request'
 import GetContact from '../action/contact/get-contact'
 import UpdateContact from '../action/contact/update-contact'
+import DeleteContact from '../action/contact/delete-contact'
 
 export default class ContactController {
   static async create(
@@ -47,6 +48,18 @@ export default class ContactController {
 
       const response = await UpdateContact.execute(req.user!, data)
 
+      res.json(toContactResponse(response)).status(200)
+    } catch (e: unknown) {
+      next(e)
+    }
+  }
+
+  static async delete(req: UserRequest, res: Response, next: NextFunction) {
+    try {
+      const contactId = BigInt(req.params.contactId)
+      
+      const response = await DeleteContact.execute(req.user!, contactId)
+      
       res.json(toContactResponse(response)).status(200)
     } catch (e: unknown) {
       next(e)

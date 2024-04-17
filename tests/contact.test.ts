@@ -138,3 +138,36 @@ describe('PUT /api/contacts/:contactId', () => {
     expect(response.status).toBe(422)
   })
 })
+
+describe('DELETE: /api/contacts/:contactId', () => {
+  it('can delete contact with specific id', async () => {
+    const user = await createUser()
+
+    const contact = await createContact(user)
+
+    const response = await supertest(web)
+      .delete(`/api/contacts/${contact.id}`)
+      .set('X-API-TOKEN', user.token!)
+      .send()
+
+    const body: Response<ContactResponse> = response.body
+
+    expect(response.status).toBe(200)
+    expect(BigInt(body.data.id)).toBe(contact.id)
+    expect(body.data.first_name).toBe(contact.first_name)
+    expect(body.data.last_name).toBe(contact.last_name)
+    expect(body.data.email).toBe(contact.email)
+    expect(body.data.phone).toBe(contact.phone)
+  })
+
+  it('cant delete contact with incorrect id', async () => {
+    const user = await createUser()
+
+    const response = await supertest(web)
+      .delete('/api/contacts/0')
+      .set('X-API-TOKEN', user.token!)
+      .send()
+
+    expect(response.status).toBe(404)
+  })
+})
