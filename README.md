@@ -2,7 +2,7 @@
 
 ## CI
 
-![example workflow](https://github.com/github/docs/actions/workflows/feature-test/badge.svg)
+![FEATURE TEST](https://github.com/kevariable/ts-restful-api/actions/workflows/feature-test.yml/badge.svg)
 
 ## STACK
 
