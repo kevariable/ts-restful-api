@@ -1,5 +1,9 @@
 # Simple CRUD API
 
+## CI
+
+![example workflow](https://github.com/github/docs/actions/workflows/feature-test/badge.svg)
+
 ## STACK
 
 - TypeScript
