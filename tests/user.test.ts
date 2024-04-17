@@ -28,8 +28,6 @@ describe('POST /api/users', () => {
       password: faker.lorem.words(options)
     }
 
-    console.log(`Req:`, request)
-
     const response = await supertest(web).post('/api/users').send(request)
 
     expect(response.status).toBe(422)
@@ -199,5 +197,35 @@ describe('PATCH /api/users/current', () => {
 
     expect(response.status).toBe(422)
     expect(response.body.errors).toBeDefined()
+  })
+})
+
+describe('POST /api/logout', () => {
+  it('can logout user', async () => {
+    const userRequest = createUserRequest()
+
+    await CreateUser.execute(userRequest)
+
+    const login = await LoginUser.execute(userRequest)
+
+    const response = await supertest(web)
+      .post('/api/logout')
+      .set('X-API-TOKEN', login.token !)
+      .send()
+
+    expect(response.status).toBe(200)
+    expect(response.body.data).toBeDefined()
+    expect(response.body.data.username).toBeDefined()
+    expect(response.body.data.username).toEqual(userRequest.username)
+    expect(response.body.data.token).toBeNull()
+  })
+
+  it('cant logout user due invalid token', async () => {
+    const response = await supertest(web)
+      .post('/api/logout')
+      .set('X-API-TOKEN', 'I AM HACKER')
+      .send()
+
+    expect(response.status).toBe(401)
   })
 })

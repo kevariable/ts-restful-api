@@ -4,6 +4,7 @@ import LoginUser from '../action/login-user'
 import { toUserResponse } from '../model/user-model'
 import UserRequest from '../request/user-request'
 import UpdateUser from '../action/update-user'
+import LogoutUser from '../action/logout-user'
 
 export class UserController {
   static async register(req: Request, res: Response, next: NextFunction) {
@@ -51,6 +52,16 @@ export class UserController {
       res.status(200).json({
         data: toUserResponse(user)
       })
+    } catch (e: unknown) {
+      next(e)
+    }
+  }
+
+  static async logoutUser(req: UserRequest, res: Response, next: NextFunction) {
+    try {
+      const response = await LogoutUser.execute(req.user!)
+
+      res.json({ data: toUserResponse(response) }).status(200)
     } catch (e: unknown) {
       next(e)
     }
