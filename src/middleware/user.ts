@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express'
 import UserRequest from '../request/user-request'
-import GetUser from '../action/get-user-by-token'
+import GetUser from '../action/user/get-user-by-token'
 
 export const user = async (
   req: UserRequest,

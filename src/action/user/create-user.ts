@@ -2,11 +2,11 @@ import {
   CreateUserRequest,
   toUserResponse,
   UserResponse
-} from '../model/user-model'
-import { Validation } from '../validation/validation'
-import { UserValidation } from '../validation/user-validation'
-import { prismaClient } from '../application/database'
-import { ResponseError } from '../error/response-error'
+} from '../../model/user-model'
+import { Validation } from '../../validation/validation'
+import { UserValidation } from '../../validation/user-validation'
+import { prismaClient } from '../../application/database'
+import { ResponseError } from '../../error/response-error'
 import bcrypt from 'bcrypt'
 import { User } from '@prisma/client'
 

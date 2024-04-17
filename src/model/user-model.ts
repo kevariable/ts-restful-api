@@ -1,4 +1,5 @@
 import { User } from '@prisma/client'
+import { Response } from './model'
 
 export type UserResponse = {
   username: string
@@ -26,10 +27,12 @@ export type UpdateUserRequest = {
   password?: string
 }
 
-export function toUserResponse({ username, name, token }: User): UserResponse {
+export function toUserResponse({ username, name, token }: User): Response<UserResponse> {
   return {
-    name,
-    username,
-    token
+    data: {
+      name,
+      username,
+      token
+    }
   }
 }

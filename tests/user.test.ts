@@ -1,10 +1,10 @@
 import supertest from 'supertest'
 import { web } from '../src/application/web'
 import { faker } from '@faker-js/faker'
-import CreateUser from '../src/action/create-user'
+import CreateUser from '../src/action/user/create-user'
 import { createUserRequest } from './fixtures/user'
-import LoginUser from '../src/action/login-user'
-import GetUserByToken from '../src/action/get-user-by-token'
+import LoginUser from '../src/action/user/login-user'
+import GetUserByToken from '../src/action/user/get-user-by-token'
 import bcrypt from 'bcrypt'
 
 describe('POST /api/users', () => {

@@ -1,9 +1,9 @@
 import { User } from '@prisma/client'
-import { UpdateUserRequest } from '../model/user-model'
-import { Validation } from '../validation/validation'
-import { UserValidation } from '../validation/user-validation'
+import { UpdateUserRequest } from '../../model/user-model'
+import { Validation } from '../../validation/validation'
+import { UserValidation } from '../../validation/user-validation'
 import bcrypt from 'bcrypt'
-import { prismaClient } from '../application/database'
+import { prismaClient } from '../../application/database'
 
 export default class UpdateUser {
   static async execute(user: User, request: UpdateUserRequest): Promise<User> {

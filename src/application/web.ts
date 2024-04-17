@@ -5,4 +5,8 @@ import { apiRouter } from '../route/api'
 
 export const web = express()
 
+BigInt.prototype.toJSON = function () {
+    return this.toString()
+}
+
 web.use(express.json()).use(publicRouter).use(apiRouter).use(errorMiddleware)
