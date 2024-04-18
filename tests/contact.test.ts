@@ -259,7 +259,10 @@ describe('GET /api/contacts/search', () => {
     const user = await createUser()
 
     await Promise.all([
-      CreateContact.execute(user, createContactRequest({ first_name: 'Kevin' })),
+      CreateContact.execute(
+        user,
+        createContactRequest({ first_name: 'Kevin' })
+      ),
       CreateContact.execute(user, createContactRequest({ last_name: 'Kevin' })),
       CreateContact.execute(user, createContactRequest()),
       CreateContact.execute(user, createContactRequest()),
@@ -315,7 +318,10 @@ describe('GET /api/contacts/search', () => {
     const user = await createUser()
 
     await Promise.all([
-      CreateContact.execute(user, createContactRequest({ email: 'kevariable@gmail.com' })),
+      CreateContact.execute(
+        user,
+        createContactRequest({ email: 'kevariable@gmail.com' })
+      ),
       CreateContact.execute(user, createContactRequest()),
       CreateContact.execute(user, createContactRequest()),
       CreateContact.execute(user, createContactRequest()),
@@ -343,10 +349,32 @@ describe('GET /api/contacts/search', () => {
     const user = await createUser()
 
     await Promise.all([
-      CreateContact.execute(user, createContactRequest({ email: 'kevariable@gmail.com' })),
-      CreateContact.execute(user, createContactRequest({ email: 'kevariable@gmail.com', first_name: 'Kevin' })),
-      CreateContact.execute(user, createContactRequest({ email: 'kevariable@gmail.com', last_name: 'Kevin' })),
-      CreateContact.execute(user, createContactRequest({ email: 'kevariable@gmail.com', last_name: 'Kevin', phone: '+60' })),
+      CreateContact.execute(
+        user,
+        createContactRequest({ email: 'kevariable@gmail.com' })
+      ),
+      CreateContact.execute(
+        user,
+        createContactRequest({
+          email: 'kevariable@gmail.com',
+          first_name: 'Kevin'
+        })
+      ),
+      CreateContact.execute(
+        user,
+        createContactRequest({
+          email: 'kevariable@gmail.com',
+          last_name: 'Kevin'
+        })
+      ),
+      CreateContact.execute(
+        user,
+        createContactRequest({
+          email: 'kevariable@gmail.com',
+          last_name: 'Kevin',
+          phone: '+60'
+        })
+      ),
       CreateContact.execute(user, createContactRequest())
     ])
 
@@ -384,11 +412,23 @@ describe('GET /api/contacts/search', () => {
     const user = await createUser()
 
     await Promise.all([
-      CreateContact.execute(user, createContactRequest({ first_name: 'Kevin' })),
-      CreateContact.execute(user, createContactRequest({ first_name: 'Kevin' })),
-      CreateContact.execute(user, createContactRequest({ first_name: 'Kevin' })),
-      CreateContact.execute(user, createContactRequest({ first_name: 'Kevin' })),
-      CreateContact.execute(user, createContactRequest({ first_name: 'Kevin' })),
+      CreateContact.execute(
+        user,
+        createContactRequest({ first_name: 'Kevin' })
+      ),
+      CreateContact.execute(
+        user,
+        createContactRequest({ first_name: 'Kevin' })
+      ),
+      CreateContact.execute(
+        user,
+        createContactRequest({ first_name: 'Kevin' })
+      ),
+      CreateContact.execute(
+        user,
+        createContactRequest({ first_name: 'Kevin' })
+      ),
+      CreateContact.execute(user, createContactRequest({ first_name: 'Kevin' }))
     ])
 
     const response = await supertest(web)
