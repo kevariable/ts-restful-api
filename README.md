@@ -33,9 +33,3 @@ docker compose exec app npm run test
 ```
 docker compose exec app npm run format
 ```
-
-## User Facing
-
-```
-http://localhost:3310
-```
