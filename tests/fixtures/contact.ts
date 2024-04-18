@@ -1,13 +1,16 @@
 import { faker } from '@faker-js/faker'
 import { CreateContactRequest } from '../../src/model/contact-model'
-import { Contact, User } from '@prisma/client'
+import { User } from '@prisma/client'
 import CreateContact from '../../src/action/contact/create-contact'
 
-export const createContactRequest = (): CreateContactRequest => ({
+export const createContactRequest = (
+  state?: Partial<CreateContactRequest>
+): CreateContactRequest => ({
   first_name: faker.person.firstName(),
   last_name: faker.person.lastName(),
   email: faker.internet.email(),
-  phone: faker.phone.number()
+  phone: faker.phone.number(),
+  ...state
 })
 
 export const createContact = async (user: User) => {

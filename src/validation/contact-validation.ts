@@ -14,4 +14,12 @@ export class ContactValidation {
     ...this.#default,
     id: z.bigint()
   })
+
+  static readonly SEARCH: ZodType = z.object({
+    name: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+    size: z.number().positive(),
+    page: z.number().positive()
+  })
 }

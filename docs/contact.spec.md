@@ -134,7 +134,7 @@ Response Body (Failed):
 
 ## Search Contact
 
-Endpoint: PATCH /api/contacts/search
+Endpoint: GET /api/contacts/search
 
 Request Header:
 - X-API-TOKEN: token
