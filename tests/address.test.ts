@@ -1,11 +1,12 @@
 import supertest from 'supertest'
 import { web } from '../src/application/web'
 import { createContact } from './fixtures/contact'
-import { createAddressRequest } from './fixtures/address'
+import { createAddress, createAddressRequest } from './fixtures/address'
 import { createUser } from './fixtures/user'
 import { AddressResponse } from '../src/model/address-model'
 import { Response } from '../src/model/model'
 import { faker } from '@faker-js/faker'
+import { add } from 'winston'
 
 describe('POST /api/contacts/{:contactId}/addresses', () => {
   it('can create address by contact', async () => {
@@ -88,6 +89,62 @@ describe('POST /api/contacts/{:contactId}/addresses', () => {
       .post(`/api/contacts/0/addresses`)
       .set('X-API-TOKEN', user.token!)
       .send(createAddressRequest(contact))
+
+    expect(response.status).toBe(404)
+  })
+})
+
+describe('GET /api/contacts/:contactId/addresses/:addresId', () => {
+  it ('can get address', async () => {
+    const user = await createUser()
+
+    const contact = await createContact(user)
+
+    const address = await createAddress(user, contact)
+
+    const response = await supertest(web)
+      .get(`/api/contacts/${contact.id}/addresses/${address.id}`)
+      .set('X-API-TOKEN', user.token !)
+      .send()
+
+    expect(response.status).toBe(200)
+
+    const body: Response<AddressResponse> = response.body
+
+    expect(BigInt(body.data.id)).toBe(address.id)
+    expect(body.data.city).toBe(address.city)
+    expect(body.data.province).toBe(address.province)
+    expect(body.data.street).toBe(address.street)
+    expect(body.data.country).toBe(address.country)
+    expect(body.data.postal_code).toBe(address.postal_code)
+  })
+
+  it ('cant get address by wrong contact', async () => {
+    const user = await createUser()
+
+    const contact = await createContact(user)
+
+    const contact2nd = await createContact(user)
+
+    const address = await createAddress(user, contact)
+
+    const response = await supertest(web)
+      .get(`/api/contacts/${contact2nd.id}/addresses/${address.id}`)
+      .set('X-API-TOKEN', user.token !)
+      .send()
+
+    expect(response.status).toBe(404)
+  })
+
+  it ('cant get address by unknown address', async () => {
+    const user = await createUser()
+
+    const contact = await createContact(user)
+
+    const response = await supertest(web)
+      .get(`/api/contacts/${contact.id}/addresses/0`)
+      .set('X-API-TOKEN', user.token !)
+      .send()
 
     expect(response.status).toBe(404)
   })
