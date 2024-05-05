@@ -26,3 +26,8 @@ apiRouter.put(
   '/api/contacts/:contactId/addresses/:addressId',
   AddressController.update
 )
+
+apiRouter.delete(
+  '/api/contacts/:contactId/addresses/:addressId',
+  AddressController.delete
+)

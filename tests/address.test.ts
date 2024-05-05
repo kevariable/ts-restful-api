@@ -228,3 +228,36 @@ describe('PUT /api/contacts/:contactId/addresses/:addressId', () => {
     expect(body.data.postal_code).toBe(request.postal_code)
   })
 })
+
+describe('DELETE: /api/contacts/:contactId/addresses/:addressId', () => {
+  it('can delete contact with specific id', async () => {
+    const user = await createUser()
+
+    const contact = await createContact(user)
+
+    const address = await createAddress(user, contact)
+
+    const response = await supertest(web)
+      .delete(`/api/contacts/${contact.id}/addresses/${address.id}`)
+      .set('X-API-TOKEN', user.token!)
+      .send()
+
+    const body: Response<AddressResponse> = response.body
+
+    expect(response.status).toBe(200)
+    expect(BigInt(body.data.id)).toBe(address.id)
+  })
+
+  it('cant delete contact with incorrect id', async () => {
+    const user = await createUser()
+
+    const contact = await createContact(user)
+
+    const response = await supertest(web)
+      .delete(`/api/contacts/${contact.id}/addresses/0`)
+      .set('X-API-TOKEN', user.token!)
+      .send()
+
+    expect(response.status).toBe(404)
+  })
+})
