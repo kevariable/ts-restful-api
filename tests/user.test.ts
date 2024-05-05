@@ -2,7 +2,7 @@ import supertest from 'supertest'
 import { web } from '../src/application/web'
 import { faker } from '@faker-js/faker'
 import CreateUser from '../src/action/user/create-user'
-import { createUserRequest } from './fixtures/user'
+import { createUser, createUserRequest } from './fixtures/user'
 import LoginUser from '../src/action/user/login-user'
 import GetUserByToken from '../src/action/user/get-user-by-token'
 import bcrypt from 'bcrypt'
@@ -32,6 +32,16 @@ describe('POST /api/users', () => {
 
     expect(response.status).toBe(422)
     expect(response.body.errors).toBeDefined()
+  })
+
+  it('cant register the new user of username exists', async () => {
+    const user = await createUser()
+
+    const request = createUserRequest({ username: user.username })
+
+    const response = await supertest(web).post('/api/users').send(request)
+
+    expect(response.status).toBe(400)
   })
 
   it('can register the new user if desired payload is satisfiable', async () => {
