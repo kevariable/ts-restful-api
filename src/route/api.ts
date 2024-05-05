@@ -2,6 +2,7 @@ import express from 'express'
 import { UserController } from '../controller/user-controller'
 import { user } from '../middleware/user'
 import ContactController from '../controller/contact-controller'
+import AddressController from '../controller/address-controller'
 
 export const apiRouter = express.Router()
 apiRouter.use(user)
@@ -15,3 +16,5 @@ apiRouter.get('/api/contacts/:contactId', ContactController.get)
 apiRouter.put('/api/contacts/:contactId', ContactController.update)
 apiRouter.delete('/api/contacts/:contactId', ContactController.delete)
 apiRouter.post('/api/contacts/search', ContactController.search)
+
+apiRouter.post('/api/contacts/:contactId/addresses', AddressController.create)
