@@ -18,4 +18,11 @@ apiRouter.delete('/api/contacts/:contactId', ContactController.delete)
 apiRouter.post('/api/contacts/search', ContactController.search)
 
 apiRouter.post('/api/contacts/:contactId/addresses', AddressController.create)
-apiRouter.get('/api/contacts/:contactId/addresses/:addressId', AddressController.get)
+apiRouter.get(
+  '/api/contacts/:contactId/addresses/:addressId',
+  AddressController.get
+)
+apiRouter.put(
+  '/api/contacts/:contactId/addresses/:addressId',
+  AddressController.update
+)

@@ -11,6 +11,10 @@ export type CreateAddressRequest = {
   postal_code: string
 }
 
+export type UpdateAddressRequest = CreateAddressRequest & {
+  id: bigint
+}
+
 export type AddressResponse = {
   id: bigint
   street: string | null
