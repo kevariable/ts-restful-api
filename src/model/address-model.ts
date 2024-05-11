@@ -25,8 +25,10 @@ export type AddressResponse = {
 }
 
 export function toAddressResponse(
-  address: Address | Pagination<Address[]>
-): Response<AddressResponse> | Pagination<AddressResponse[]> {
+  address: Address | Address[] | Pagination<Address[]>
+):
+  | Response<AddressResponse | AddressResponse[]>
+  | Pagination<AddressResponse[]> {
   const callback = (address: Address) => ({
     id: address.id,
 
@@ -41,6 +43,12 @@ export function toAddressResponse(
     return {
       data: address.data.map(callback),
       page: address.page
+    }
+  }
+
+  if (Array.isArray(address)) {
+    return {
+      data: address.map(callback)
     }
   }
 

@@ -1,10 +1,15 @@
 import { NextFunction, Response } from 'express'
 import CreateAddress from '../action/address/create-address'
 import UserRequest from '../request/user-request'
-import { CreateAddressRequest, toAddressResponse } from '../model/address-model'
+import {
+  AddressResponse,
+  CreateAddressRequest,
+  toAddressResponse
+} from '../model/address-model'
 import GetAddress from '../action/address/get-address'
 import UpdateAddress from '../action/address/update-address'
 import DeleteAddress from '../action/address/delete-address'
+import ListAddress from '../action/address/list-address'
 
 export default class AddressController {
   static async create(req: UserRequest, res: Response, next: NextFunction) {
@@ -57,9 +62,25 @@ export default class AddressController {
 
       const contactId = BigInt(req.params.contactId)
 
-      const response = await DeleteAddress.execute(req.user !, addressId, contactId)
+      const response = await DeleteAddress.execute(
+        req.user!,
+        addressId,
+        contactId
+      )
 
       res.json(toAddressResponse(response)).status(200)
+    } catch (e: unknown) {
+      next(e)
+    }
+  }
+
+  static async list(req: UserRequest, res: Response, next: NextFunction) {
+    try {
+      const contactId = BigInt(req.params.contactId)
+
+      const addresses = await ListAddress.execute(req.user!, contactId)
+
+      res.status(200).json(toAddressResponse(addresses))
     } catch (e: unknown) {
       next(e)
     }
