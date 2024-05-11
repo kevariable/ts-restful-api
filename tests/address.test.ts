@@ -6,8 +6,6 @@ import { createUser } from './fixtures/user'
 import { AddressResponse } from '../src/model/address-model'
 import { Response } from '../src/model/model'
 import { faker } from '@faker-js/faker'
-import { add } from 'winston'
-import { ResponseError } from '../src/error/response-error'
 
 describe('POST /api/contacts/{:contactId}/addresses', () => {
   it('can create address by contact', async () => {
@@ -255,6 +253,68 @@ describe('DELETE: /api/contacts/:contactId/addresses/:addressId', () => {
 
     const response = await supertest(web)
       .delete(`/api/contacts/${contact.id}/addresses/0`)
+      .set('X-API-TOKEN', user.token!)
+      .send()
+
+    expect(response.status).toBe(404)
+  })
+})
+
+describe('GET /api/contacts/:contactId/addresses', () => {
+  it('can get list of addresses by contact', async () => {
+    const user = await createUser()
+
+    const contact = await createContact(user)
+
+    const [address1st, address2st, address3st] = await Promise.all([
+      createAddress(user, contact),
+      createAddress(user, contact),
+      createAddress(user, contact)
+    ])
+
+    const response = await supertest(web)
+      .get(`/api/contacts/${contact.id}/addresses`)
+      .set('X-API-TOKEN', user.token!)
+      .send()
+
+    expect(response.status).toBe(200)
+
+    const body: Response<AddressResponse[]> = response.body
+
+    expect(body.data).toBeDefined()
+
+    expect(body.data.length).toBe(3)
+
+    const assertAddress = (actual, expected) => {
+      expect(BigInt(actual.id)).toBe(expected.id)
+      expect(actual.city).toBe(expected.city)
+      expect(actual.province).toBe(expected.province)
+      expect(actual.street).toBe(expected.street)
+      expect(actual.country).toBe(expected.country)
+      expect(actual.postal_code).toBe(expected.postal_code)
+    }
+
+    const address1stResponse = body.data.find(
+      (address) => BigInt(address.id) === address1st.id
+    )
+    assertAddress(address1stResponse, address1st)
+
+    const address2stResponse = body.data.find(
+      (address) => BigInt(address.id) === address2st.id
+    )
+    assertAddress(address2stResponse, address2st)
+
+    const address3stResponse = body.data.find(
+      (address) => BigInt(address.id) === address3st.id
+    )
+    assertAddress(address3stResponse, address3st)
+  })
+
+  it('cant get list of addresses by wrong contact', async () => {
+    const user = await createUser()
+
+    const response = await supertest(web)
+      .get(`/api/contacts/0/addresses`)
       .set('X-API-TOKEN', user.token!)
       .send()
 
