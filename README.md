@@ -9,6 +9,7 @@
 - Prisma
 - Jest
 - Docker
+- k6
 
 ## API Spec
 
