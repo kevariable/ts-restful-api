@@ -4,6 +4,11 @@ import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 import { vu } from 'k6/execution'
 
 export const options = {
+    thresholds: {
+        create_contact_counter_success: ['count>190'],
+        create_contact_counter_err: ['count<10']
+    },
+
     scenarios: {
         createContacts: {
             exec: 'createContacts',
