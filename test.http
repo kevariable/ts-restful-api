@@ -1,0 +1,41 @@
+### Send POST request with json body
+< {%
+    request.variables.set("clients", [
+        {"username": "kevin1", "name": "kevin1", "password": "password"},
+        {"username": "kevin2", "name": "kevin2", "password": "password"},
+        {"username": "kevin3", "name": "kevin3", "password": "password"},
+        {"username": "kevin4", "name": "kevin4", "password": "password"},
+        {"username": "kevin5", "name": "kevin5", "password": "password"},
+        {"username": "kevin6", "name": "kevin6", "password": "password"},
+        {"username": "kevin7", "name": "kevin7", "password": "password"},
+        {"username": "kevin8", "name": "kevin8", "password": "password"},
+        {"username": "kevin9", "name": "kevin9", "password": "password"},
+        {"username": "kevin10", "name": "kevin10", "password": "password"}
+    ])
+%}
+
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "username": "{{$.clients..username}}",
+  "name": "{{$.clients..name}}",
+  "password": "{{$.clients..password}}"
+}
+
+> {%
+    let currentClient = request.variables.get("clients")[request.iteration()];
+    client.test(`Account creation for ${currentClient.username}`, () => {
+        let username = jsonPath(response.body, 'data.username')
+        client.assert(username === currentClient.username, "Usernames do not match");
+    });
+%}
+
+### Send POST request with json body
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "username": "kevin1",
+  "password": "password"
+}

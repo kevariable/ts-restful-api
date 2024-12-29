@@ -21,3 +21,4 @@ yarn-error.log
 /_ide_helper.php
 /coverage
 /dist
+/k6/node_modules/

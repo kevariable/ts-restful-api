@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   app:
     image: ts-restful-api:dev
@@ -11,9 +9,22 @@ services:
       - /app/node_modules
     command: ["npm", "run", "dev"]
     ports:
-      - 3000:3000
+      - "3000:3000"
     depends_on:
       - mysql
+
+  k6:
+    image: grafana/k6
+    working_dir: /app
+    environment:
+      K6_WEB_DASHBOARD: true
+    tty: true
+    command: >
+      run src/ping.js
+    ports:
+      - "5665:5665"
+    volumes:
+      - ./k6:/app
 
   mysql:
     image: mysql/mysql-server:8.0

@@ -1,8 +1,4 @@
-import {
-  CreateUserRequest,
-  toUserResponse,
-  UserResponse
-} from '../../model/user-model'
+import { CreateUserRequest } from '../../model/user-model'
 import { Validation } from '../../validation/validation'
 import { UserValidation } from '../../validation/user-validation'
 import { prismaClient } from '../../application/database'
@@ -34,10 +30,8 @@ export default class CreateUser {
       await bcrypt.hash(registerRequest.password, 10)
     ).toString()
 
-    const user = await prismaClient.user.create({
+    return await prismaClient.user.create({
       data: registerRequest
     })
-
-    return user
   }
 }
