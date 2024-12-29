@@ -1,6 +1,7 @@
 import http from 'k6/http';
 import {check, fail} from 'k6';
 import { uuidv4 } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
+import {createUser} from "./supports/user.js";
 
 export const options = {
   vus: 10,
@@ -64,25 +65,7 @@ const registerCallback = ({ uniqueId, password }) => {
     name: `user-${uniqueId}`
   })
 
-  const userRegistered = http.post('http://app:3000/api/users', data, {
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  })
-
-  const userRegisteredResponse = userRegistered.json()
-
-  const userRegisteredCheck = check(userRegistered, {
-    'Register response status must 201': userRegistered.status === 201,
-    'Register response data must not null': userRegisteredResponse.data !== null ,
-  })
-
-  if (! userRegisteredCheck) {
-    fail(`Failed to registering user-${uniqueId}`)
-  }
-
-  return userRegisteredResponse
+  return createUser(data)
 }
 
 export default function() {

@@ -12,8 +12,9 @@ export const createContact = (createContactRequest, token) => {
 
     const createContactResponse = createContact.json()
 
+
     check(createContact, {
         'response must be 200': createContact.status === 200,
-        'response contains id': createContactResponse.data.id !== undefined,
+        'response contains id': createContactResponse.data?.id !== undefined,
     })
 }

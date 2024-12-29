@@ -15,7 +15,7 @@ export function setup() {
       first_name: 'Contact',
       last_name: `No ${i}`,
       email: `contact${i}@example.com`,
-      phone: `i`
+      phone: `+${i}`
     })
   }
 

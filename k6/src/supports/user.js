@@ -17,8 +17,30 @@ export function loginUser(loginUserRequest){
     })
 
     if (!checkLogin) {
-        fail(`Login failed user ${username}`)
+        fail(`Login failed user ${loginUserRequest}`)
     }
 
     return response
+}
+
+export function createUser(data) {
+    const userRegistered = http.post('http://app:3000/api/users', data, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+
+    const userRegisteredResponse = userRegistered.json()
+
+    const userRegisteredCheck = check(userRegistered, {
+        'Register response status must 201': userRegistered.status === 201,
+        'Register response data must not null': userRegisteredResponse.data !== null ,
+    })
+
+    if (! userRegisteredCheck) {
+        fail(`Failed to registering ${data}`)
+    }
+
+    return userRegisteredResponse
 }
