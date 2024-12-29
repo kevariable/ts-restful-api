@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eux
 
-DC="docker-compose -f docker-compose.ci.yml"
+DC="docker compose -f docker-compose.ci.yml"
 
 ls -l
 
